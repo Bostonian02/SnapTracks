@@ -14,7 +14,10 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.anonymous.SnapTracks"
+      "bundleIdentifier": "com.anonymous.SnapTracks",
+      "infoPlist": {
+        "NSCameraUsageDescription": "This app uses the camera to take photos"
+      }
     },
     "android": {
       "adaptiveIcon": {
