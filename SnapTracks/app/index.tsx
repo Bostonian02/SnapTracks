@@ -1,4 +1,4 @@
-import { Text, View, Button } from "react-native";
+import { Text, View, Pressable } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { Link } from "expo-router";
 
@@ -13,7 +13,9 @@ export default function Index() {
     >
       <ThemedText type="subtitle">Ready to make some noise?</ThemedText>
       <Link href="/camera" asChild>
-        <Button title='Start'></Button>
+        <Pressable>
+          <ThemedText>Start</ThemedText>
+        </Pressable>
       </Link>
     </View>
   );
