@@ -1,6 +1,7 @@
 import { Text, View, Pressable, StyleSheet } from "react-native";
 import { ThemedText } from "@/components/ThemedText";
 import { Link } from "expo-router";
+import { HelloWave } from "@/components/HelloWave";
 
 export default function Index() {
   return (
@@ -8,9 +9,12 @@ export default function Index() {
       style={{
         flex: 1,
         justifyContent: "center",
-        alignItems: 'center'
+        alignItems: 'center',
+        margin: 10
       }}
     >
+      <ThemedText type="title">Welcome to SnapTracks</ThemedText>
+      <HelloWave></HelloWave>
       <ThemedText type="subtitle">Ready to make some noise?</ThemedText>
       <View style={styles.buttonContainer}>
         <Link href="/camera" asChild>
@@ -42,6 +46,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonContainer: {
+    marginTop: 20,
     width: '100%',
     justifyContent: 'center',
     alignItems: 'center'
