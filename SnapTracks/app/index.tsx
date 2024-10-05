@@ -19,14 +19,14 @@ export default function Index() {
       <View style={styles.buttonContainer}>
         <Link href="/camera" asChild>
           <Pressable style={styles.button}>
-            <ThemedText>Start</ThemedText>
+            <ThemedText style={{ color: 'white' }}>Start</ThemedText>
           </Pressable>
         </Link>
         
         {/* Temporary Button to navigate to NowPlaying */}
         <Link href="/nowplaying" asChild>
           <Pressable style={styles.button}>
-            <ThemedText>Go to Now Playing</ThemedText>
+            <ThemedText style={{ color: 'white' }}>Go to Now Playing</ThemedText>
           </Pressable>
         </Link>
       </View>
@@ -41,7 +41,7 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
     paddingHorizontal: 20,
     borderRadius: 5,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#6200ee',
     alignItems: 'center',
     justifyContent: 'center',
   },

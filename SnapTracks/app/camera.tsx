@@ -98,10 +98,10 @@ export default function CameraScreen() {
       >
         <View style={styles.buttonContainer}>
           <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <ThemedText>Flip Camera</ThemedText>
+            <ThemedText style={{color: 'white'}}>Flip Camera</ThemedText>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <ThemedText>Take Photo</ThemedText>
+            <ThemedText style={{color: 'white'}}>Take Photo</ThemedText>
           </TouchableOpacity>
         </View>
       </CameraView>
@@ -131,9 +131,9 @@ const styles = StyleSheet.create({
     flex: 1,
     alignSelf: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#007AFF',
+    backgroundColor: '#6200ee',
     borderRadius: 5,
-    paddingVertical: 10,
+    paddingVertical: 15,
     marginHorizontal: 10,
   }
 })

@@ -52,7 +52,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 10,
     paddingVertical: 15,
     borderRadius: 5,
-    backgroundColor: '#007AFF',
+    backgroundColor: '#6200ee',
     alignItems: 'center',
   },
   buttonText: {
