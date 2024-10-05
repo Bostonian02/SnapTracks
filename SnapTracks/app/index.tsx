@@ -1,4 +1,6 @@
-import { Text, View } from "react-native";
+import { Text, View, Button } from "react-native";
+import { ThemedText } from "@/components/ThemedText";
+import { Link } from "expo-router";
 
 export default function Index() {
   return (
@@ -9,7 +11,10 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <ThemedText type="subtitle">Ready to make some noise?</ThemedText>
+      <Link href="/camera" asChild>
+        <Button title='Start'></Button>
+      </Link>
     </View>
   );
 }
