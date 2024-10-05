@@ -11,7 +11,7 @@ export default function Playlist() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <View style={styles.container}>
-        <ThemedText style={styles.title}>Playlist</ThemedText>
+        <ThemedText type="title">Playlist</ThemedText>
 
         <FlatList
           data={playlist}
@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 30,
   },
