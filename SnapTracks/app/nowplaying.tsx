@@ -59,12 +59,12 @@ const styles = StyleSheet.create({
     color: '#6200ee',
   },
   albumCover: {
-    width: 200,
-    height: 200,
+    width: 330,
+    height: 330,
     marginBottom: 20,
   },
   songName: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 10,
   },

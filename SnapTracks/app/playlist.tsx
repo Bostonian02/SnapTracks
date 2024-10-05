@@ -9,16 +9,13 @@ export default function Playlist() {
     { id: '3', title: 'Next Song - Example Song 3' },
   ];
 
-  // Use the system color scheme (light or dark)
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
 
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: isDarkMode ? '#000' : '#fff' }]}>
-      {/* Title now uses the type 'title' to ensure correct styling */}
       <ThemedText type="title" style={styles.title}>Playlist</ThemedText>
 
-      {/* Render playlist with dynamic background for boxes */}
       <FlatList
         data={playlist}
         renderItem={({ item }) => (
@@ -36,20 +33,23 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     padding: 20,
-    justifyContent: 'flex-start', // Ensure content starts below the title
+    justifyContent: 'flex-start',
   },
   title: {
-    fontSize: 20,
+    fontSize: 26,
     fontWeight: 'bold',
-    marginBottom: 30, // Space below the title for better spacing
+    marginBottom: 30,
+    textAlign: 'center',
   },
   songContainer: {
-    width: '100%',
+    width: '90%', // Adjust width to allow centering
+    alignSelf: 'center', // Center the cells
     padding: 15,
-    marginBottom: 10,
+    marginBottom: 20,
+    marginHorizontal: 10, // Add horizontal margins to create space from the sides
     borderRadius: 10,
-    elevation: 3, // Add shadow on Android
-    shadowColor: '#000', // Shadow for iOS
+    elevation: 3,
+    shadowColor: '#000',
     shadowOffset: { width: 0, height: 2 },
     shadowOpacity: 0.1,
     shadowRadius: 4,
