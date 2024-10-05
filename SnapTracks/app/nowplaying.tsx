@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Image, StyleSheet, TouchableOpacity, PanResponder } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity, PanResponder, Pressable } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import * as Progress from 'react-native-progress';
 import { Audio } from 'expo-av';
 import { Link } from 'expo-router';
+import { Ionicons } from '@expo/vector-icons';
 
 export default function NowPlaying() {
   const [progress, setProgress] = useState(0.0);
@@ -135,9 +136,20 @@ export default function NowPlaying() {
       </View>
 
       {/* Play/Pause Button */}
-      <TouchableOpacity onPress={togglePlayPause} style={styles.playPauseButton}>
+      {/* <TouchableOpacity onPress={togglePlayPause} style={styles.playPauseButton}>
         <Text style={styles.playPauseButtonText}>{isPlaying ? "Pause" : "Play"}</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
+      <View style={styles.playPauseSkipButtonContainer}>
+        <Pressable>
+          <Ionicons name='play-back' size={48} color='#6200ee'/>
+        </Pressable>
+        <Pressable onPress={togglePlayPause}>
+          <Ionicons name={isPlaying ? 'pause' : 'play'} size={48} color='#6200ee'/>
+        </Pressable>
+        <Pressable>
+          <Ionicons name='play-forward' size={48} color='#6200ee'/>
+        </Pressable>
+      </View>
     </View>
   );
 }
@@ -182,6 +194,12 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 18,
   },
+  playPauseSkipButtonContainer: {
+    flexDirection: 'row',
+    width: '100%',
+    justifyContent: 'space-around',
+    marginTop: 15,
+  }
 });
 
 
