@@ -17,6 +17,14 @@ export default function Index() {
           <ThemedText>Start</ThemedText>
         </Pressable>
       </Link>
+      
+      {/* Temporary Button to navigate to NowPlaying */}
+      <Link href="/nowplaying" asChild>
+        <Pressable>
+          <ThemedText>Go to Now Playing</ThemedText>
+        </Pressable>
+      </Link>
     </View>
   );
 }
+
