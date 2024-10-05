@@ -1,7 +1,8 @@
-import { View, Text, Image, ProgressBarAndroid, StyleSheet, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, TouchableOpacity } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { useState, useEffect } from 'react';
 import { Link } from 'expo-router';
+import * as Progress from 'react-native-progress'; // Import the new progress bar component
 
 export default function NowPlaying() {
   const [progress, setProgress] = useState(0.4); // Placeholder progress value
@@ -32,8 +33,15 @@ export default function NowPlaying() {
       <ThemedText style={styles.songName}>{songName}</ThemedText>
       <Text>2:34 / 5:00</Text>
 
-      {/* Wider Progress Bar */}
-      <ProgressBarAndroid style={styles.progressBar} styleAttr="Horizontal" color="#6200ee" progress={progress} />
+      {/* Thinner Progress Bar */}
+      <Progress.Bar 
+        progress={progress} 
+        width={null} // Full width of the container
+        height={4} // Reduced height for a thinner progress bar
+        color="#6200ee" 
+        style={styles.progressBar}
+        borderRadius={5}
+      />
     </View>
   );
 }
@@ -59,18 +67,17 @@ const styles = StyleSheet.create({
     color: '#6200ee',
   },
   albumCover: {
-    width: 200,
-    height: 200,
+    width: 330,
+    height: 330,
     marginBottom: 20,
   },
   songName: {
-    fontSize: 24,
+    fontSize: 26,
     fontWeight: 'bold',
     marginBottom: 10,
   },
   progressBar: {
     width: '90%', // Wider progress bar
-    height: 20,
     marginTop: 20,
   },
 });
