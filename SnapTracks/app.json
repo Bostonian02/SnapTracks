@@ -3,6 +3,7 @@
     "name": "SnapTracks",
     "slug": "SnapTracks",
     "version": "1.0.0",
+    "jsEngine": "jsc",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
     "scheme": "myapp",

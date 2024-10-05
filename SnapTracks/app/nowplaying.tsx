@@ -18,9 +18,13 @@ export default function NowPlaying() {
   const songURL = "https://cdn.aimlapi.com/suno/796a14db-4f53-4ffa-9dd9-ca1270d253ab.mp3"; // Example link
 
   useEffect(() => {
-    let soundObject;
+    let soundObject: any;
 
     async function fetchAndPlaySound() {
+      await Audio.setAudioModeAsync({
+        playsInSilentModeIOS: true,
+      });
+
       try {
         // Load the sound
         const { sound, status } = await Audio.Sound.createAsync(
