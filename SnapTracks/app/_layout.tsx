@@ -12,6 +12,8 @@ export default function RootLayout() {
         <Stack.Screen name="index" options={{ headerShown: false, title: 'Home' }}/>
         <Stack.Screen name="camera" options={{ headerShown: false, title: 'Camera' }}/>
         <Stack.Screen name="previewscreen" options={{ headerShown: false, title: 'Preview' }}/>
+        <Stack.Screen name="nowplaying" options={{ title: 'Now Playing' }}/>
+        <Stack.Screen name="playlist" options={{ title: 'Queue' }}/>
       </Stack>
     </ThemeProvider>
   );
