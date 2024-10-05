@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     justifyContent: 'flex-start', // Ensure content starts below the title
   },
   title: {
-    fontSize: 28,
+    fontSize: 20,
     fontWeight: 'bold',
     marginBottom: 30, // Space below the title for better spacing
   },
