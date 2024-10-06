@@ -12,6 +12,7 @@ import { ThemedText } from '@/components/ThemedText';
 import { Audio } from 'expo-av';
 import { Link } from 'expo-router';
 import { Ionicons } from '@expo/vector-icons';
+import * as FileSystem from 'expo-file-system';
 
 export default function NowPlaying() {
   const [progress, setProgress] = useState(0.0);
@@ -20,6 +21,7 @@ export default function NowPlaying() {
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
   const [isSliding, setIsSliding] = useState(false); // State to track if user is sliding
+  const [songData, setSongData] = useState<any>(null);
 
   const albumCover = "https://www.newburycomics.com/cdn/shop/products/Kendrick-Lamar-Good-Kid-MAAD-City-2LP-Vinyl-1764910_71b46ce0-409a-40fa-823f-dedb5c74eb35_1024x1024.jpeg?v=1437499389";
   const songName = "Money Trees";
@@ -27,6 +29,8 @@ export default function NowPlaying() {
 
   useEffect(() => {
     let soundObject;
+
+    readFile();
 
     async function fetchAndPlaySound() {
       await Audio.setAudioModeAsync({
@@ -73,6 +77,18 @@ export default function NowPlaying() {
       }
     };
   }, []); // Removed 'isSliding' from dependencies
+
+  async function readFile() {
+    try {
+      const fileUri = FileSystem.documentDirectory + 'songs.json';
+      const jsonString = await FileSystem.readAsStringAsync(fileUri);
+      const data = JSON.parse(jsonString);
+      setSongData(data);
+      console.log('JSON Data:', data);
+    } catch (error) {
+      console.error('Error reading file:', error);
+    }
+  }
 
   const togglePlayPause = async () => {
     if (sound) {

@@ -1,6 +1,7 @@
 import {Text, View, Button, TouchableOpacity, StyleSheet} from 'react-native';
 import React, { useState, useRef } from 'react';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
+import * as FileSystem from 'expo-file-system';
 
 import { ThemedText } from '@/components/ThemedText';
 
@@ -79,7 +80,19 @@ export default function CameraScreen() {
       description
         .then((value) => {
           // Value is what the promise resolves to
-          generateMusicPrompt(value);
+          let data: Promise<any> = generateMusicPrompt(value);
+          data
+            .then((value) => {
+              const fileUri = FileSystem.documentDirectory + 'songs.json';
+              const jsonData = JSON.stringify(value, null, 2);
+              console.log('File uri location:', fileUri);
+              try {
+                FileSystem.writeAsStringAsync(fileUri, jsonData);
+                console.log('File has been saved as songs.json');
+              } catch (error) {
+                console.log('Error writing file:', error);
+              }
+            })
         })
         .catch((error) => {
           console.error('Promise rejected with error:', error);
@@ -145,8 +158,6 @@ export default function CameraScreen() {
     }
 
     const data = await response.json();
-    const firstSongData = data.songs[0].data;
-    console.log('First song data:', firstSongData);
     return data;
   }
 
