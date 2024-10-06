@@ -1,28 +1,30 @@
-import { View, FlatList, StyleSheet, useColorScheme } from 'react-native';
+import { View, FlatList, StyleSheet, useColorScheme, Image, Text } from 'react-native';
 import { ThemedText } from '@/components/ThemedText';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function Playlist() {
   const playlist = [
-    { id: '1', title: 'Current Song - Example Song 1' },
-    { id: '2', title: 'Next Song - Example Song 2' },
-    { id: '3', title: 'Next Song - Example Song 3' },
+    { id: '1', title: 'Current Song - Example Song 1', cover: 'https://via.placeholder.com/50' },
+    { id: '2', title: 'Next Song - Example Song 2', cover: 'https://via.placeholder.com/50' },
+    { id: '3', title: 'Next Song - Example Song 3', cover: 'https://via.placeholder.com/50' },
   ];
 
   const colorScheme = useColorScheme();
   const isDarkMode = colorScheme === 'dark';
 
+  const renderSong = ({ item }) => (
+    <View style={styles.songContainer}>
+      <Image source={{ uri: item.cover }} style={styles.coverImage}/>
+      <Text style={styles.songTitle}>{item.title}</Text>
+    </View>
+  );
   return (
     <SafeAreaView style={[styles.container, { backgroundColor: isDarkMode ? '#000' : '#fff' }]}>
       <ThemedText type="title" style={styles.title}>Playlist</ThemedText>
 
       <FlatList
         data={playlist}
-        renderItem={({ item }) => (
-          <View style={[styles.songContainer, { backgroundColor: isDarkMode ? '#333' : '#f0f0f0' }]}>
-            <ThemedText style={styles.song}>{item.title}</ThemedText>
-          </View>
-        )}
+        renderItem={renderSong}
         keyExtractor={(item) => item.id}
       />
     </SafeAreaView>
@@ -42,17 +44,23 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   songContainer: {
-    width: '90%', // Adjust width to allow centering
-    alignSelf: 'center', // Center the cells
-    padding: 15,
-    marginBottom: 20,
-    marginHorizontal: 10, // Add horizontal margins to create space from the sides
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    marginVertical: 5,
+    backgroundColor: '#F5F5F5',
     borderRadius: 10,
-    elevation: 3,
-    shadowColor: '#000',
-    shadowOffset: { width: 0, height: 2 },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
+  },
+  coverImage: {
+    width: 50,
+    height: 50,
+    marginRight: 15,
+  },
+  songTitle: {
+    fontSize: 16,
+    color: '#333',
+    flexShrink: 1,
   },
   song: {
     fontSize: 18,
