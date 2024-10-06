@@ -48,7 +48,7 @@ def generate_description_from_image(image_path):
     vertexai.init(project="silent-cider-437701-t5", location="us-central1")
 
     # Load the generative model (Gemini)
-    model = GenerativeModel("gemini-1.5-flash-001")
+    model = GenerativeModel("gemini-1.0-pro-vision-001")
     
     # Start a chat session with the model
     chat = model.start_chat()
@@ -56,7 +56,7 @@ def generate_description_from_image(image_path):
     # Create a combined prompt for the Gemini model based on the image descriptions
     prompt = (
         f"The following are key details observed in the image: {', '.join(descriptions)}. "
-        "Based on thses elements, please provide a description."
+        "Describe what is happeing in the image and feelings evoked."
     )
     
     # Send the message to the model (using prompt only)
@@ -66,7 +66,7 @@ def generate_description_from_image(image_path):
     return model_response.text if model_response else "No response generated"
 
 if __name__ == "__main__":
-    image_path = "image1.jpg"  # Replace with your image file path
+    image_path = "man_on_water.jpg"  # Replace with your image file path
     description = generate_description_from_image(image_path)
     print("Generated Description:", description)
 
