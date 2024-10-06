@@ -13,20 +13,13 @@ export default function Index() {
         margin: 10
       }}
     >
-      <ThemedText type="title">Welcome to SnapTracks</ThemedText>
+      <ThemedText type="title" style={styles.title}>Welcome to SnapTracks</ThemedText>
       <HelloWave></HelloWave>
-      <ThemedText type="subtitle">Ready to make some noise?</ThemedText>
+      <ThemedText type="subtitle" style={styles.subtitle}>Ready to make some noise?</ThemedText>
       <View style={styles.buttonContainer}>
         <Link href="/camera" asChild>
           <Pressable style={styles.button}>
-            <ThemedText style={{ color: 'white' }}>Start</ThemedText>
-          </Pressable>
-        </Link>
-        
-        {/* Temporary Button to navigate to NowPlaying */}
-        <Link href="/nowplaying" asChild>
-          <Pressable style={styles.button}>
-            <ThemedText style={{ color: 'white' }}>Go to Now Playing</ThemedText>
+            <ThemedText style={{ color: 'white', fontSize: 20 }}>Start</ThemedText>
           </Pressable>
         </Link>
       </View>
@@ -35,12 +28,18 @@ export default function Index() {
 }
 
 const styles = StyleSheet.create({
+  title: {
+    marginBottom: 10,
+  },
+  subtitle: {
+    marginTop: 10,
+  },
   button: {
     width: '80%',
     marginVertical: 15,
     paddingVertical: 15,
     paddingHorizontal: 20,
-    borderRadius: 5,
+    borderRadius: 10,
     backgroundColor: '#6200ee',
     alignItems: 'center',
     justifyContent: 'center',
