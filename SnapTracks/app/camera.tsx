@@ -2,6 +2,7 @@ import { Text, View, Button, TouchableOpacity, StyleSheet, ActivityIndicator } f
 import React, { useState, useRef } from 'react';
 import { CameraView, CameraType, useCameraPermissions } from 'expo-camera';
 import * as FileSystem from 'expo-file-system';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 import { ThemedText } from '@/components/ThemedText';
 
@@ -208,7 +209,6 @@ export default function CameraScreen() {
     <View
       style={{
         flex: 1,
-        justifyContent: 'center',
       }}
     >
       <CameraView
@@ -218,12 +218,19 @@ export default function CameraScreen() {
         onCameraReady={onCameraReady}
       >
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.button} onPress={toggleCameraFacing}>
-            <ThemedText style={{ color: 'white' }}>Flip Camera</ThemedText>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={takePicture}>
-            <ThemedText style={{ color: 'white' }}>Take Photo</ThemedText>
-          </TouchableOpacity>
+          {/* Flip Camera Button */}
+          <View style={styles.leftButton}>
+            <TouchableOpacity onPress={toggleCameraFacing}>
+              <Ionicons name="sync-circle" size={64} color="#6200ee"/>
+            </TouchableOpacity>
+          </View>
+
+          {/* Take Picture Button */}
+          <View style={styles.centerButton}>
+            <TouchableOpacity onPress={takePicture}>
+              <Ionicons name="scan-circle-outline" size={96} color="#6200ee" />
+            </TouchableOpacity>
+          </View>
         </View>
       </CameraView>
     </View>
@@ -243,19 +250,22 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   buttonContainer: {
-    flex: 1,
+    position: 'absolute',
+    bottom: 50,
+    left: 0,
+    right: 0,
     flexDirection: 'row',
-    backgroundColor: 'transparent',
-    margin: 64,
-  },
-  button: {
-    flex: 1,
-    alignSelf: 'flex-end',
     alignItems: 'center',
-    backgroundColor: '#6200ee',
-    borderRadius: 5,
-    paddingVertical: 15,
-    marginHorizontal: 10,
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+  },
+  leftButton: {
+    flex: 1,
+    alignItems: 'flex-start'
+  },
+  centerButton: {
+    flex: 1.78,
+    alignItems: 'flex-start'
   },
   loadingContainer: {
     flex: 1,
