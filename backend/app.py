@@ -152,7 +152,7 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
 
     # Define the payload for the API call
     data = {
-        "model": "gpt-4",  # or "gpt-3.5-turbo" depending on your access
+        "model": "gpt-4o-mini",  # or "gpt-3.5-turbo" depending on your access
         "messages": messages,
         "max_tokens": 400,
         "temperature": 0.7
