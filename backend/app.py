@@ -77,7 +77,8 @@ def generate_music():
             return jsonify({"error": "Failed to generate lyrics, title, or genre tags."}), 500
 
         # Get generated song IDs
-        song_id_1, song_id_2 = get_generated_song_ids(lyrics, title, genre_tags)
+        # song_id_1, song_id_2 = get_generated_song_ids(lyrics, title, genre_tags)
+        song_id_1, song_id_2 = get_generated_song_ids(title, genre_tags)
         logger.info("Generated Song IDs: %s, %s", song_id_1, song_id_2)
 
         # Fetch song data for each generated song ID
