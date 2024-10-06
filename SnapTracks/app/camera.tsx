@@ -145,7 +145,8 @@ export default function CameraScreen() {
     }
 
     const data = await response.json();
-    console.log('Song Data:', data);
+    const firstSongData = data.songs[0].data;
+    console.log('First song data:', firstSongData);
     return data;
   }
 
