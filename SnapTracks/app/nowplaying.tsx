@@ -47,7 +47,7 @@ export default function NowPlaying() {
       let audioUrl: string = song.data['audio_url'];
       const baseUrl = audioUrl.replace('audio/?item_id=', ''); 
       const formattedUrl = `${baseUrl}.mp3`;
-      console.log(formattedUrl); 
+      console.log(formattedUrl);
       setSongURL(formattedUrl);
     } else {
       console.log('Song data not set');

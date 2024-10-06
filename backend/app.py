@@ -219,7 +219,7 @@ def get_generated_song_ids(lyrics, title, genre_tags):
     Calls the Suno API to generate song clips based on the lyrics, title, and genre tags.
     Returns two generated song clip IDs.
     """
-    api_url = "https://api.aimlapi.com/v2/generate/audio/suno-ai/clip"
+    api_url = "https://api.sunoapi.com/api/v2/suno/v3.0/custom/create-pure-music"
     headers = {
         "Authorization": f"Bearer {SUNO_API_KEY}",
         "Content-Type": "application/json",
@@ -228,7 +228,7 @@ def get_generated_song_ids(lyrics, title, genre_tags):
     tags_string = ", ".join(genre_tags)
 
     payload = {
-        "prompt": lyrics,
+        # "prompt": lyrics,
         "tags": tags_string,  # API expects a string, not an array
         "title": title
     }
@@ -257,7 +257,7 @@ def get_song_data_from_id(song_id):
     """
     Retrieves song data from Suno API using the provided song ID.
     """
-    api_url = "https://api.aimlapi.com/v2/generate/audio/suno-ai/clip"
+    api_url = "https://api.sunoapi.com/api/v2/suno/v3.0/custom/create-pure-music"
     headers = {
         "Authorization": f"Bearer {SUNO_API_KEY}",
         "Content-Type": "application/json",
