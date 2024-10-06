@@ -8,6 +8,7 @@ from google.cloud import vision
 import vertexai
 from vertexai.generative_models import GenerativeModel
 import logging
+import re
 
 # Load environment variables from .env file
 load_dotenv()
@@ -144,8 +145,7 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
         {
             "role": "user",
             "content": (
-                f"The description is: {setting_description}. The location is: {location}. "
-                f"The weather is: {weather}. The current time of day is: {time_of_day}."
+                f"The description is: {setting_description}."
                 f"Focus more on the description and be literal about what is happening with minimal creative freedom."
             )
         }
@@ -191,13 +191,14 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
 
         # Search for a line that looks like a title or genre
         for line in lines:
-            if line.lower().startswith("title:"):
+            # if line.lower().startswith("title:"):
+            if "title:" in line.lower():
                 title = line.split(":", 1)[1].strip()
-            elif line.lower().startswith("genre:") or line.lower().startswith("tags:"):
+            elif "genre:" in line.lower() or "tags:" in line.lower():
                 genre_tags = [tag.strip() for tag in line.split(":", 1)[1].split(",")]
 
             # If the line doesn't look like a title or genre, treat it as lyrics
-            if not (line.lower().startswith("title:") or line.lower().startswith("genre:") or line.lower().startswith("tags:")):
+            if "title:" not in line.lower() or "genre:" not in line.lower() or "tags:" not in line.lower():
                 lyrics.append(line)
 
         lyrics = "\n".join(lyrics).strip()
@@ -208,6 +209,8 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
         if not genre_tags:
             genre_tags = ["Unknown"]
 
+        title = remove_non_alphanumeric(title)
+
         logger.info("Parsed Lyrics Length: %d, Title: %s, Genre Tags: %s",
                     len(lyrics), title, genre_tags)
         return lyrics, title, genre_tags
@@ -215,12 +218,12 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
         logger.error("OpenAI API response does not contain 'choices' or is empty.")
         return None, None, None  # Return None in case of an empty response
 
-def get_generated_song_ids(lyrics, title, genre_tags):
+def get_generated_song_ids(title, genre_tags):
     """
     Calls the Suno API to generate song clips based on the lyrics, title, and genre tags.
     Returns two generated song clip IDs.
     """
-    api_url = "https://api.sunoapi.com/api/v2/suno/v3.0/custom/create-pure-music"
+    api_url = "https://api.aimlapi.com/v2/generate/audio/suno-ai/clip"
     headers = {
         "Authorization": f"Bearer {SUNO_API_KEY}",
         "Content-Type": "application/json",
@@ -230,8 +233,10 @@ def get_generated_song_ids(lyrics, title, genre_tags):
 
     payload = {
         # "prompt": lyrics,
+        "prompt": "",
         "tags": tags_string,  # API expects a string, not an array
-        "title": title
+        "title": title,
+
     }
 
     logger.info("Sending request to Suno API to generate song clips.")
@@ -258,7 +263,7 @@ def get_song_data_from_id(song_id):
     """
     Retrieves song data from Suno API using the provided song ID.
     """
-    api_url = "https://api.sunoapi.com/api/v2/suno/v3.0/custom/create-pure-music"
+    api_url = "https://api.aimlapi.com/v2/generate/audio/suno-ai/clip"
     headers = {
         "Authorization": f"Bearer {SUNO_API_KEY}",
         "Content-Type": "application/json",
@@ -356,6 +361,9 @@ def get_image_description(image_bytes):
         return ["No discernible objects found."]
 
     return descriptions
+
+def remove_non_alphanumeric(s: str) -> str:
+    return re.sub(r"[^a-zA-Z0-9\s,']", '', s)
 
 if __name__ == "__main__":
     # Run the Flask app
