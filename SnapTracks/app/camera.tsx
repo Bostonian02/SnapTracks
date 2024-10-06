@@ -69,35 +69,74 @@ export default function CameraScreen() {
   }
 
   // Function when user confirms photo
-  function handleConfirmPhoto() {
+  async function handleConfirmPhoto() {
     console.log('Photo confirmed:', imageUri);
     setLoading(true); // Start loading
     if (base64Encoding) {
       console.log('Base64 encoding exists!');
-      describeImage(base64Encoding)
-        .then((description) => {
-          return generateMusicPrompt(description);
-        })
-        .then((data) => {
-          const fileUri = FileSystem.documentDirectory + 'songs.json';
-          const jsonData = JSON.stringify(data, null, 2);
-          console.log('File uri location:', fileUri);
-          return FileSystem.writeAsStringAsync(fileUri, jsonData);
-        })
-        .then(() => {
-          console.log('File has been saved as songs.json');
-          setLoading(false); // Stop loading
-          router.push('/nowplaying'); // Navigate to NowPlaying page
-        })
-        .catch((error) => {
-          console.error('Error:', error);
-          setLoading(false); // Stop loading even on error
-        });
+      try {
+        // Describe the image
+        const description = await describeImage(base64Encoding);
+
+        // Generate music prompt
+        const data = await generateMusicPrompt(description);
+
+        // Save data to file
+        const fileUri = FileSystem.documentDirectory + 'songs.json';
+        const jsonData = JSON.stringify(data, null, 2);
+        console.log('File uri location:', fileUri);
+        await FileSystem.writeAsStringAsync(fileUri, jsonData);
+        console.log('File has been saved as songs.json');
+
+        // Extract and modify the audio URL
+        let audioUrl = data.songs[0].data['audio_url'];
+        const modifiedAudioUrl = modifyAudioUrl(audioUrl);
+        console.log('Modified audio URL:', modifiedAudioUrl);
+
+        // Wait until the URL is ready
+        await waitForUrlReady(modifiedAudioUrl);
+
+        // After the URL is ready, proceed
+        setLoading(false); // Stop loading
+        router.push('/nowplaying'); // Navigate to NowPlaying page
+      } catch (error) {
+        console.error('Error:', error);
+        setLoading(false); // Stop loading even on error
+      }
     } else {
       console.log('No base64 encoding available.');
       setLoading(false);
     }
   }
+
+  function modifyAudioUrl(url: string) {
+    const baseUrl = url.replace('audio/?item_id=', '');
+    const formattedUrl = `${baseUrl}.mp3`;
+    return formattedUrl;
+  }
+
+  async function waitForUrlReady(url: string, timeout = 300000, interval = 5000) {
+    // Wait up to timeout milliseconds, checking every interval milliseconds
+    const startTime = Date.now();
+  
+    while (Date.now() - startTime < timeout) {
+      try {
+        const response = await fetch(url, { method: 'HEAD' });
+        if (response.ok) {
+          // URL is ready
+          console.log('Audio URL is ready.');
+          return true;
+        }
+      } catch (error) {
+        // Ignore errors and continue polling
+        console.log('Waiting for audio URL to be ready...');
+      }
+      // Wait for interval milliseconds
+      await new Promise((resolve) => setTimeout(resolve, interval));
+    }
+    // Timed out
+    throw new Error('Audio URL did not become ready in time');
+  }  
 
   // Call the describe image API
   async function describeImage(base64Image: string) {
@@ -149,10 +188,11 @@ export default function CameraScreen() {
     return (
       <View style={styles.loadingContainer}>
         <ActivityIndicator size="large" color="#6200ee" />
-        <Text>Processing your image...</Text>
+        <Text>Processing your image and generating music...</Text>
       </View>
     );
   }
+  
 
   if (imageUri) {
     return (
