@@ -181,13 +181,13 @@ export default function NowPlaying() {
   return (
     <View style={styles.container}>
       {/* Queue Button in Top Right */}
-      <View style={styles.header}>
+      {/* <View style={styles.header}>
         <Link href="/playlist" asChild>
           <TouchableOpacity style={styles.queueButton}>
             <ThemedText style={styles.queueButtonText}>Queue</ThemedText>
           </TouchableOpacity>
         </Link>
-      </View>
+      </View> */}
 
       {/* Album Cover and Song Info */}
       <Image source={{ uri: albumCover }} style={styles.albumCover} />
