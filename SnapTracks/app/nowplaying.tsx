@@ -65,6 +65,7 @@ export default function NowPlaying() {
     async function fetchAndPlaySound() {
       await Audio.setAudioModeAsync({
         playsInSilentModeIOS: true,
+        staysActiveInBackground: true,
       });
 
       try {
