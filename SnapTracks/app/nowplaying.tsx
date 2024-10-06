@@ -21,9 +21,11 @@ export default function NowPlaying() {
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
   const [isSliding, setIsSliding] = useState(false); // State to track if user is sliding
-  const [songData, setSongData] = useState<any>(null);
+  const [songData, setSongData] = useState<any>();
+  const [albumCover, setAlbumCover] = useState<string>('');
+  const [songTitle, setSongTitle] = useState<string>('');
 
-  const albumCover = "https://www.newburycomics.com/cdn/shop/products/Kendrick-Lamar-Good-Kid-MAAD-City-2LP-Vinyl-1764910_71b46ce0-409a-40fa-823f-dedb5c74eb35_1024x1024.jpeg?v=1437499389";
+  // const albumCover = "https://www.newburycomics.com/cdn/shop/products/Kendrick-Lamar-Good-Kid-MAAD-City-2LP-Vinyl-1764910_71b46ce0-409a-40fa-823f-dedb5c74eb35_1024x1024.jpeg?v=1437499389";
   const songName = "Money Trees";
   const songURL = "https://cdn.aimlapi.com/suno/5af61ef7-cebd-49b5-970c-afb61ef221c0.mp3"; // Example link
 
@@ -31,7 +33,7 @@ export default function NowPlaying() {
     let soundObject;
 
     readFile();
-
+    
     async function fetchAndPlaySound() {
       await Audio.setAudioModeAsync({
         playsInSilentModeIOS: true,
@@ -78,13 +80,32 @@ export default function NowPlaying() {
     };
   }, []); // Removed 'isSliding' from dependencies
 
+  useEffect(() => {
+    if (songData && songData.songs)
+    {
+      setAlbumCover(songData.songs[0].data['image_url'])
+      setSongTitle(songData.songs[0].data['title']);
+    }
+    else
+    {
+      console.log('Song data no set');
+      setAlbumCover("https://www.newburycomics.com/cdn/shop/products/Kendrick-Lamar-Good-Kid-MAAD-City-2LP-Vinyl-1764910_71b46ce0-409a-40fa-823f-dedb5c74eb35_1024x1024.jpeg?v=1437499389");
+    }
+    // if (songData['songs'][0].data['image_url'])
+    // {
+    //   setAlbumCover(songData.songs[0].data['image_url']);
+    // } else
+    // {
+    //   setAlbumCover("https://www.newburycomics.com/cdn/shop/products/Kendrick-Lamar-Good-Kid-MAAD-City-2LP-Vinyl-1764910_71b46ce0-409a-40fa-823f-dedb5c74eb35_1024x1024.jpeg?v=1437499389");
+    // }
+  }, [songData])
+
   async function readFile() {
     try {
       const fileUri = FileSystem.documentDirectory + 'songs.json';
       const jsonString = await FileSystem.readAsStringAsync(fileUri);
       const data = JSON.parse(jsonString);
       setSongData(data);
-      console.log('JSON Data:', data);
     } catch (error) {
       console.error('Error reading file:', error);
     }
