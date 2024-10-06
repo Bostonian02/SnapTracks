@@ -72,6 +72,20 @@ export default function CameraScreen() {
   // Function when user confirms photo
   function handleConfirmPhoto() {
     console.log('Photo confirmed:', imageUri);
+    if (base64Encoding)
+    {
+      console.log('Base 64 encoding exists!');
+      let description: Promise<any> = describeImage(base64Encoding);
+      description
+        .then((value) => {
+          // Value is what the promise resolves to
+          generateMusicPrompt(value);
+        })
+        .catch((error) => {
+          console.error('Promise rejected with error:', error);
+        });
+    }
+    
   }
 
   if (imageUri) {
@@ -82,6 +96,57 @@ export default function CameraScreen() {
         onConfirm={handleConfirmPhoto}
       />
     );
+  }
+
+  // Call the describe image API
+  async function describeImage(base64Image: string)
+  {
+    const response = await fetch('https://eaa3-132-170-212-17.ngrok-free.app/describe_image', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        image_base64: base64Image,
+      }),
+    });
+
+    if (!response.ok)
+    {
+      console.log('Error:', response.statusText);
+      return;
+    }
+
+    const data = await response.json();
+    console.log('Image Description: ', data);
+    return data;
+  }
+
+  // Call the generate music prompt API
+  async function generateMusicPrompt(settingDescription: string)
+  {
+    const response = await fetch('https://eaa3-132-170-212-17.ngrok-free.app/generate_music', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        setting_description: settingDescription,
+        location: 'Orlando',
+        weather: 'Sunny',
+        time_of_day: 'Middle of afternoon'
+      })
+    });
+
+    if (!response.ok)
+    {
+      console.log('Error:', response.statusText);
+      return;
+    }
+
+    const data = await response.json();
+    console.log('Song Data:', data);
+    return data;
   }
 
   return (
