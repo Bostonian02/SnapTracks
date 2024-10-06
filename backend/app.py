@@ -152,7 +152,7 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
 
     # Define the payload for the API call
     data = {
-        "model": "gpt-4",  # or "gpt-3.5-turbo" depending on your access
+        "model": "gpt-4",  # Updated model name if necessary
         "messages": messages,
         "max_tokens": 400,
         "temperature": 0.7
@@ -213,7 +213,6 @@ def generate_music_prompt(setting_description, location, weather, time_of_day):
     else:
         logger.error("OpenAI API response does not contain 'choices' or is empty.")
         return None, None, None  # Return None in case of an empty response
-
 
 def get_generated_song_ids(lyrics, title, genre_tags):
     """
@@ -302,7 +301,7 @@ def generate_description_from_image_base64(image_base64):
 
     # Generate a combined description using Vertex AI's generative model
     try:
-        model = GenerativeModel("gemini-1.5-flash-001")
+        model = GenerativeModel("gemini-1.0-pro-vision-001")  # Updated model name
         chat = model.start_chat()
         logger.info("Vertex AI generative model initialized.")
     except Exception as e:
@@ -311,7 +310,7 @@ def generate_description_from_image_base64(image_base64):
 
     prompt = (
         f"The following are key details observed in the image: {', '.join(descriptions)}. "
-        "Based on these elements, please provide a detailed description."
+        "Describe what is happening in the image and feelings evoked."
     )
 
     logger.info("Sending prompt to Vertex AI generative model.")
@@ -360,4 +359,3 @@ def get_image_description(image_bytes):
 if __name__ == "__main__":
     # Run the Flask app
     app.run(host='0.0.0.0', port=5000, debug=True)
-
